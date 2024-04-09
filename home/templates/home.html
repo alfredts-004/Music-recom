@@ -3,33 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Recommendation</title>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1614149162883-504ce4d13909?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bXVzaWMlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww');
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(0,128,128,0.25);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .recommendation {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .recommendation h3 {
+            margin-top: 0;
+        }
+        .recommendation p {
+            margin: 5px 0;
+        }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .search-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .search-form input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .search-form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Music Recommendation</h1>
-    
-    <!-- Form to input the genre and artist name -->
-    <form method="post">
-        {% csrf_token %}
-        <label for="genre">Enter the genre:</label>
-        <input type="text" id="genre" name="genre">
-        <br>
-        <label for="artist_name">Enter the artist name:</label>
-        <input type="text" id="artist_name" name="artist_name">
-        <br>
-        <button type="submit">Submit</button>
-    </form>
-
-    <!-- Display recommendations if available -->
-    {% if recommendations %}
-        <h2>Recommended Songs</h2>
-        <ul>
-            {% for song in recommendations %}
-                <li>{{ song.track_name }} by {{ song.artist_name }} ( {{ song.genre}} ) </li>
+    <div class="container">
+        <h1>Recommended Songs</h1>  
+        <form class="search-form" method="POST">
+            {% csrf_token %}
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre" placeholder="Enter genre...">
+            <label for="artist">Artist:</label>
+            <input type="text" id="artist" name="artist_name" placeholder="Enter artist...">
+            <input type="submit" value="Search">
+        </form>
+        {% if recommendations %}
+            {% for recommendation in recommendations %}
+                <div class="recommendation">
+                    <h3>{{ recommendation.track_name }}</h3>
+                    <p><strong>Artist:</strong> {{ recommendation.artist_name }}</p>
+                    <p><strong>Genre:</strong> {{ recommendation.genre }}</p>
+                </div>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>No recommendations available for the provided genre and artist.</p>
-    {% endif %}
+        {% else %}
+            <p>No recommendations found.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
