@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Recommendation</title>
+</head>
+<body>
+    <h1>Music Recommendation</h1>
+    
+    <!-- Display the form -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Display album and singer names if available -->
+    {% if album_name and singer_name %}
+        <h2>Album and Singer Information</h2>
+        <p><strong>Album Name:</strong> {{ album_name }}</p>
+        <p><strong>Singer Name:</strong> {{ singer_name }}</p>
+    {% elif album_name %}
+        <p>No singer found for the provided song.</p>
+        <p><strong>Album Name:</strong> {{ album_name }}</p>
+    {% elif singer_name %}
+        <p>No album found for the provided song.</p>
+        <p><strong>Singer Name:</strong> {{ singer_name }}</p>
+    {% endif %}
+</body>
+</html>
