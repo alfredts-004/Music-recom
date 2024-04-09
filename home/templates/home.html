@@ -8,24 +8,28 @@
 <body>
     <h1>Music Recommendation</h1>
     
-    <!-- Display the form -->
+    <!-- Form to input the genre and artist name -->
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="genre">Enter the genre:</label>
+        <input type="text" id="genre" name="genre">
+        <br>
+        <label for="artist_name">Enter the artist name:</label>
+        <input type="text" id="artist_name" name="artist_name">
+        <br>
         <button type="submit">Submit</button>
     </form>
 
-    <!-- Display album and singer names if available -->
-    {% if album_name and singer_name %}
-        <h2>Album and Singer Information</h2>
-        <p><strong>Album Name:</strong> {{ album_name }}</p>
-        <p><strong>Singer Name:</strong> {{ singer_name }}</p>
-    {% elif album_name %}
-        <p>No singer found for the provided song.</p>
-        <p><strong>Album Name:</strong> {{ album_name }}</p>
-    {% elif singer_name %}
-        <p>No album found for the provided song.</p>
-        <p><strong>Singer Name:</strong> {{ singer_name }}</p>
+    <!-- Display recommendations if available -->
+    {% if recommendations %}
+        <h2>Recommended Songs</h2>
+        <ul>
+            {% for song in recommendations %}
+                <li>{{ song.track_name }} by {{ song.artist_name }} ( {{ song.genre}} ) </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No recommendations available for the provided genre and artist.</p>
     {% endif %}
 </body>
 </html>
